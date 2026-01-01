@@ -1,0 +1,31 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">
+        {% if form.instance.pk %}
+            Edit Student
+        {% else %}
+            Add Student
+        {% endif %}
+    </h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="submit" class="btn btn-success">
+                        {% if form.instance.pk %}
+                            Update Student
+                        {% else %}
+                            Add Student
+                        {% endif %}
+                    </button>
+                    <a href="{% url 'student_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
