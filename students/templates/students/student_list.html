@@ -43,6 +43,34 @@ tbody tr:hover {
     transition: 0.3s ease;
 }
 
+.btn-success {
+    background-color: #1cc88a;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 6px 16px;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #17a673;
+}
+
+.btn-danger {
+    background-color: #e74a3b;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 6px 16px;
+    border: none;
+    transform: 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
 /* Empty Table Message */
 tbody tr td.text-center {
     font-style: italic;
@@ -86,7 +114,8 @@ tbody tr td.text-center {
         <tbody>
             {% for student in students %}
             <tr>
-                <td>{{ student.id }}</td>
+                <!--Use forloop.counter for sequential numbering-->
+                <td>{{ forloop.counter }}</td>
                 <td>{{ student.name }}</td>
                 <td>{{ student.course }}</td>
                 <td>{{ student.phone }}</td>
@@ -97,7 +126,7 @@ tbody tr td.text-center {
             </tr>       
             {% empty %}  
             <tr>  
-                <td colspan="4" class="text-center">No students found</td>
+                <td colspan="5" class="text-center">No students found</td>
             </tr>
             {% endfor %}
         </tbody>
