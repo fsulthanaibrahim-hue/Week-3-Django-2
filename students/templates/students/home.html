@@ -1,16 +1,64 @@
 {% extends 'students/base.html' %}
 
 {% block content %}
-<div class="container text-center mt-5">
-    <h1>Welcome to Students Management System</h1>
-    <p>You can manage all students easily.</p>
+<style>
+    .home-hero {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #4e73df, #1cc88a);
+        border-radius: 20px;
+        color: white;
+        padding: 40px;
+    }
 
-    <a href="{% url 'student_list' %}" class="btn btn-primary">
-        View Students
-    </a>
+    .home-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        padding: 40px;
+        border-radius: 15px;
+        max-width: 600px;
+        width: 100%;
+    }
 
-    <a href="{% url 'student_create' %}" class="btn btn-success">
-        Add Student
-    </a>
+    .home-card h1 {
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .home-card p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .home-buttons a {
+        padding: 12px 30px;
+        font-size: 1rem;
+        border-radius: 30px;
+        margin: 10px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="home-hero">
+        <div class="home-card text-center">
+            <h1>Student Management System</h1>
+            <p>
+                Manage student records easily — add, view, update, and delete
+                student information in one place.
+            </p>
+
+            <div class="home-buttons">
+                <a href="{% url 'student_list' %}" class="btn btn-light text-primary">
+                    📋 View Students
+                </a>
+
+                <a href="{% url 'student_create' %}" class="btn btn-success">
+                    ➕ Add Student
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
