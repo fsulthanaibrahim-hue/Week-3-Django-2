@@ -3,7 +3,7 @@
 {% block content %}
 
 <style>
-    /* Table Styling */
+/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -16,93 +16,63 @@ table {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Table Header */
+/* Header */
 thead th {
-    background: linear-gradient(135deg, #4e73df, #1cc88a); /* professional gradient */
-    color: #ffffff;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    color: #fff;
     font-weight: 600;
     text-align: center;
-    padding: 12px 15px;
+    padding: 12px;
 }
 
-/* Table Body */
+/* Body */
 tbody td {
-    padding: 12px 15px;
+    padding: 12px;
     text-align: center;
     border-bottom: 1px solid #e3e6f0;
 }
 
-/* Alternating Row Colors */
 tbody tr:nth-child(even) {
     background-color: #f8f9fc;
 }
 
-/* Row Hover Effect */
 tbody tr:hover {
     background-color: #e2f7f1;
-    transition: 0.3s ease;
 }
 
-.btn-success {
-    background-color: #1cc88a;
-    color: #fff;
-    font-weight: 600;
-    border-radius: 6px;
-    padding: 6px 16px;
-    border: none;
-    transition: 0.3s ease;
+/* ICON ONLY ACTIONS */
+.action-icons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    font-size: 18px;
 }
 
-.btn-success:hover {
-    background-color: #17a673;
+.action-icons a {
+    color: #6c757d;
+    transition: 0.2s ease;
 }
 
-.btn-danger {
-    background-color: #e74a3b;
-    color: #fff;
-    font-weight: 600;
-    border-radius: 6px;
-    padding: 6px 16px;
-    border: none;
-    transform: 0.3s ease;
+.action-icons a:hover {
+    color: #000;
 }
 
-.btn-danger:hover {
-    background-color: #c0392b;
+/* Edit hover color */
+.action-icons .edit:hover {
+    color: #4e73df;
 }
 
-/* Empty Table Message */
-tbody tr td.text-center {
-    font-style: italic;
-    color: #858796;
+/* Delete hover color */
+.action-icons .delete:hover {
+    color: #e74a3b;
 }
-
-/* Responsive Table for Mobile */
-@media (max-width: 768px) {
-    table, thead, tbody, th, td, tr { display: block; }
-    thead tr { display: none; }
-    tbody td {
-        text-align: right;
-        padding-left: 50%;
-        position: relative;
-    }
-    tbody td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 15px;
-        width: 45%;
-        font-weight: 600;
-        text-align: left;
-    }
-}
-
 </style>
 
 <div class="container mt-5">
     <h2 class="mb-4">Students List</h2>
 
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
+    <table>
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -114,22 +84,31 @@ tbody tr td.text-center {
         <tbody>
             {% for student in students %}
             <tr>
-                <!--Use forloop.counter for sequential numbering-->
                 <td>{{ forloop.counter }}</td>
                 <td>{{ student.name }}</td>
                 <td>{{ student.course }}</td>
                 <td>{{ student.phone }}</td>
                 <td>
-                  <a href="{% url 'student_edit' student.id %}" class="btn btn-success btn-sm">Edit</a>
-                  <a href="{% url 'student_delete' student.pk %}" class="btn btn-danger">Delete</a>
+                    <div class="action-icons">
+                        <a href="{% url 'student_edit' student.id %}" 
+                           class="edit" title="Edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+
+                        <a href="{% url 'student_delete' student.pk %}" 
+                           class="delete" title="Delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
                 </td>
-            </tr>       
-            {% empty %}  
-            <tr>  
+            </tr>
+            {% empty %}
+            <tr>
                 <td colspan="5" class="text-center">No students found</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
 {% endblock %}
