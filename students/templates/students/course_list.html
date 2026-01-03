@@ -1,0 +1,134 @@
+    {% extends 'students/base.html' %}
+
+    {% block content %}
+    <style>
+        .page-wrapper {
+            background: linear-gradient(135deg, #4e73df, #36b9cc);
+            border-radius: 18px;
+            padding: 35px;
+        }
+
+        .page-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 15px;
+        }
+
+        .page-header h2 {
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .search-input {
+            width: 250px;
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: 1px solid #d1d5db;
+        }
+
+        table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        table td {
+            vertical-align: middle;
+            font-size: 0.95rem;
+        }
+
+        table tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+
+    <div class="container mt-5">
+        <div class="page-wrapper">
+            <div class="page-card">
+
+                <!-- Header -->
+                <div class="page-header">
+                    <h2>Courses</h2>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search courses...">
+                </div>
+
+                <!-- Table -->
+                {% if courses %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle" id="coursesTable">
+                        <thead>
+                            <tr>
+                                <th>Course Name</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for course in courses %}
+                            <tr>
+                                <td>{{ course.name }}</td>
+                                <td>{{ course.duration }}</td>
+                                <td class="text-center">
+                                <!-- Edit -->
+                                <a href="{% url 'course_edit' course.id %}" class="btn btn-sm btn-light text-warning me-1" title="Edit">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+
+                                <!-- Delete -->
+                                <a href="{% url 'course_delete' course.id %}" class="btn btn-sm btn-light text-danger me-1" title="Delete" onclick="return confirm('Are you sure?')">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+
+                                <!-- View Students -->
+                                <a href="{% url 'course_students' course.id %}" class="btn btn-sm btn-light text-info" title="View Students">
+                                    <i class="bi bi-people-fill"></i>
+                                </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                    <p class="text-center text-muted mb-0">No courses available</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Live search function
+        const searchInput = document.getElementById('searchInput');
+        const table = document.getElementById('coursesTable');
+        const rows = table.getElementsByTagName('tr');
+
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase();
+
+            for (let i = 1; i < rows.length; i++) { // skip header row
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = match ? '' : 'none';
+            }
+        });
+    </script>
+    {% endblock %}

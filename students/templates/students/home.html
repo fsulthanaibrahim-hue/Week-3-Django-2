@@ -2,6 +2,24 @@
 
 {% block content %}
 <style>
+    .home-buttons .btn-light {
+        background-color: #f5f6f8;
+        border: 1px solid #dcdfe3;
+        color: #2c2f33;
+    }
+
+    .home-buttons .btn-success {
+        background-color: #e9ecef;
+        border: 1px solid #dcdfe3;
+        color: #2c2f33;
+    }
+
+    .home-buttons .btn-warning {
+        background-color: #dee2e6;
+        border: 1px solid #ced4da;
+        color: #2c2f33;
+    }
+
     .home-hero {
         min-height: 70vh;
         display: flex;
@@ -56,6 +74,10 @@
 
                 <a href="{% url 'student_create' %}" class="btn btn-success">
                     ➕ Add Student
+                </a>
+
+                <a href="{% url 'course_list' %}" class="btn btn-warning text-dark">
+                    📚 Courses
                 </a>
             </div>
         </div>

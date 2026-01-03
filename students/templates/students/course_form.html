@@ -1,0 +1,59 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+<style>
+.form-wrapper {
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.form-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 700px;
+    margin: auto;
+}
+
+.form-card h2 {
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+</style>
+
+<div class="container mt-5">
+    <div class="form-wrapper">
+        <div class="form-card">
+            <h2>{% if course %}✏️ Edit Course{% else %}➕ Add Course{% endif %}</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label>Course Name</label>
+                    <input type="text" name="name" value="{{ course.name|default_if_none:'' }}" required>
+                </div>
+
+                <div class="mb-4">
+                    <label>Duration</label>
+                    <input type="text" name="duration" value="{{ course.duration|default_if_none:'' }}" required>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success btn-sm px-4">Save</button>
+                    <a href="{% url 'course_list' %}" class="btn btn-secondary btn-sm px-4 ms-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

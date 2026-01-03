@@ -3,20 +3,54 @@
 {% block content %}
 
 <style>
+/* Page Wrapper */
+.page-wrapper {
+    background: linear-gradient(135deg, #4e73df, #36b9cc);
+    border-radius: 18px;
+    padding: 30px;
+}
+
+/* Card */
+.page-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 10px;
+}
+
+.page-header h2 {
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+/* Search input */
+.search-input {
+    width: 250px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: 1px solid #d1d5db;
+}
+
 /* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 12px;
-    overflow: hidden;
-    background-color: #ffffff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 14px;
     color: #2e3e5c;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Header */
+/* Table Head */
 thead th {
     background: linear-gradient(135deg, #4e73df, #1cc88a);
     color: #fff;
@@ -25,7 +59,7 @@ thead th {
     padding: 12px;
 }
 
-/* Body */
+/* Table Body */
 tbody td {
     padding: 12px;
     text-align: center;
@@ -44,8 +78,8 @@ tbody tr:hover {
 .action-icons {
     display: flex;
     justify-content: center;
-    gap: 18px;
-    font-size: 18px;
+    gap: 12px;
+    font-size: 16px;
 }
 
 .action-icons a {
@@ -54,61 +88,92 @@ tbody tr:hover {
 }
 
 .action-icons a:hover {
-    color: #000;
+    color: #1f2937;
 }
 
-/* Edit hover color */
+/* Specific hover colors */
 .action-icons .edit:hover {
     color: #4e73df;
 }
 
-/* Delete hover color */
 .action-icons .delete:hover {
     color: #e74a3b;
 }
 </style>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Students List</h2>
+    <div class="page-wrapper">
+        <div class="page-card">
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Course</th>
-                <th>Phone</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in students %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ student.name }}</td>
-                <td>{{ student.course }}</td>
-                <td>{{ student.phone }}</td>
-                <td>
-                    <div class="action-icons">
-                        <a href="{% url 'student_edit' student.id %}" 
-                           class="edit" title="Edit">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
+            <!-- Header -->
+            <div class="page-header">
+                <h2>📋 Students</h2>
+                <input type="text" id="studentSearchInput" class="search-input" placeholder="Search students...">
+            </div>
 
-                        <a href="{% url 'student_delete' student.pk %}" 
-                           class="delete" title="Delete">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5" class="text-center">No students found</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <!-- Table -->
+            {% if students %}
+            <div class="table-responsive">
+                <table id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.course }}</td>
+                            <td>{{ student.phone }}</td>
+                            <td>
+                                <div class="action-icons">
+                                    <a href="{% url 'student_edit' student.id %}" class="edit" title="Edit">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <a href="{% url 'student_delete' student.id %}" class="delete" title="Delete" onclick="return confirm('Are you sure?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p class="text-center text-muted mb-0">No students available</p>
+            {% endif %}
+
+        </div>
+    </div>
 </div>
+
+<script>
+    // Live search for students
+    const studentSearchInput = document.getElementById('studentSearchInput');
+    const studentsTable = document.getElementById('studentsTable');
+    const studentRows = studentsTable.getElementsByTagName('tr');
+
+    studentSearchInput.addEventListener('keyup', function() {
+        const filter = studentSearchInput.value.toLowerCase();
+        for (let i = 1; i < studentRows.length; i++) { // skip header row
+            const cells = studentRows[i].getElementsByTagName('td');
+            let match = false;
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j].textContent.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+            studentRows[i].style.display = match ? '' : 'none';
+        }
+    });
+</script>
 
 {% endblock %}
