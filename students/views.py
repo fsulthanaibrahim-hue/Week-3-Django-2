@@ -106,3 +106,6 @@ def course_students(request, id):
     course = get_object_or_404(Course, id=id)
     students = Student.objects.filter(course=course)
     return render(request, 'students/course_students.html', {'course': course, 'students': students})
+
+
+
