@@ -47,8 +47,8 @@ def student_delete(request, pk):  # use pk instead of id
 def student_update(request, pk):
     student = get_object_or_404(Student, pk=pk)
 
-    if request.method == 'POST':
-        form = StudentForm(request.POST, instance=student)
+    if request.method == 'PUT':
+        form = StudentForm(request.PUT, instance=student)
         if form.is_valid():
             form.save()
             return redirect('student_list')
